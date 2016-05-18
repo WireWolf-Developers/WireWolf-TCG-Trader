@@ -1,42 +1,45 @@
-# This is your [AngularAttack](https://www.angularattack.com) 2016 Repo
+# WireWolf-TCG-Trader #
 
-This repo is the start of your AngularAttack 2016 entry. It contains the simple [Angular2 starter](https://angular.io/docs/ts/latest/quickstart.html) files.
+## Description ##
+Do you collect Magic The Gathering Cards? Wanna trade cards? We have a platform who allows trade your physical cards in a better way without leave your home.
 
-**DO NOT MAKE ANY CODE CHECKINS TO THIS REPOSITORY BEFORE THE COMPETITION OFFICIALLY BEGINS.**
+## Enviroment Details ##
 
-**DOING SO COULD DISQUALIFY YOU.**
+### How to set up the enviroment ###
+- Clone this repository
+- CD to directory you cloned the repository
+- npm install
+- bower install
 
+### Execute the enviroment  ###
+- grunt serve
 
-However, before the competition starts, there are some things we encourage you to do to get prepared for the competition.
+## Built With ##
+ - Backand: https://www.backand.com/
+ - Bootstrap: http://getbootstrap.com/
+ - jQuery: https://jquery.com/
+ - ngImgCrop: https://github.com/alexk111/ngImgCrop
+ - Font Awesome: http://fontawesome.io/?ref=devtoolsonline
+ - DeckBrew: https://deckbrew.com/api/
 
+## Instructions and Usability ##
 
-## Step 1) Get Your Local Environment setup
+### Create your collection ###
+ - Create a new account or SignUp with your Google or Facebook account.
+ - Click Search Cards on menu
+ - Search Cards using the filters.
+ - Click on the card to view details
+ - Add the card to your collection
 
-Clone this repo locally, and make sure all your team members have access to it.
+### Make your cards available to trade ###
+ - Click on Collection menu
+ - Click in the card to view details
+ - Click add to trade
 
-* Install the latest [Node / NPM](https://nodejs.org).
-
-* `git clone git@github.com:rumblex/angularattack2016-wirewolftcg.git`
-
-* `cd angularattack2016-wirewolftcg`
-
-* `npm install`
-
-* `npm start` will start the server locally to test that everything is running correctly
-
-
-## Step 2) Deploy Your App
-
-While you can't make any checkins, what you **can** do is deploy this sample app to [Surge](https://surge.sh) (our competition hosting provider).
-
-* `npm install -g surge`
-
-* `surge .`
-
-Note: please do not remove the `CNAME` file, as that tells it where to deploy to.
-
-
-## Step 3) Wait til competition starts
-
-It begins at exactly [May 14 at 00:00 UTC](https://www.wolframalpha.com/input/?i=May+14,+2016+0:00+UTC). Once the competition starts,   you can write over this project.
+### Trade Cards ###
+ - Click on Trade Cards Menu
+ - Filter the cards available to trade
+ - Click on the card that you want
+ - Select one of your own cards that are available to trade on the previous step.
+ - Exchange cards (in the future we will implement a request system and track and rate the trade via mail)
 
