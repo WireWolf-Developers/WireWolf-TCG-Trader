@@ -1,0 +1,25 @@
+<header ng-include="'templates/menu.html'"></header>
+<div class="box">
+    <h1>User Profile</h1>
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-6 col-md-offset-3">
+            <div class="card-profile clearfix">
+                <div class="card-profile-block image">
+                    <img src="{{imageUrl}}" alt="" />
+                </div>
+                <div class="card-profile-block full username">
+                    {{nome}}
+                </div>
+                <div class="card-profile-block full bio">
+                    {{about}}
+                </div>
+				<div class="card-profile-block no-style left">
+								<input type="button" class="submit-profile form-control" value="Edit" ng-click="edit()"/>
+							</div>
+                <div class="card-profile-block right">
+                    <span class="traded-cards">{{trocas}}</span>/<span class="own-cards">{{cartas}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

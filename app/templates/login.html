@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Latest compiled and minified CSS -->
+
+        <link rel="stylesheet" href="../css/bootstrap.css">
+        <link rel="stylesheet"  href="../css/styles.css">
+        <link rel="stylesheet"  href="../css/font-awesome.css">
+
+        
+
+    </head>
+    <body>
+        <div class="container ">
+            <form class="form-horizontal col-lg-6 col-md-6 col-sm-6  col-xs-10 col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-xs-offset-1 login">
+                <fieldset>
+                    <legend>Login</legend>
+                   
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label for="exampleInputEmail1">Email</label>
+                            <input ng-model="login.username" type="text" class="form-control" id="name" placeholder="Email">
+                        </div>
+                        
+                       
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-12">
+                            <label for="password" class="control-label">Password</label>
+                            <input ng-model="login.password" type="password" class="form-control col-lg-12 " id="password" placeholder="Password">
+                        </div>
+                        
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-lg-12 ">
+                            
+                            
+                            <a  ng-click="login.authenticate()" class="btn btn-success btn-lg btn-block">
+                                <div class="col-lg-5 text-right "><span class="fa fa-sign-in"></span></div>
+                                <div class="col-lg-5 text-left ">Sign in</div>
+                                
+                            </a>
+                            
+                            <a  ng-click="login.socialSignin('facebook')" class="btn btn-facebook btn-lg btn-block">
+                                <div class="col-lg-5 text-right "><span class="fa fa-facebook"></span></div>
+                                <div class="col-lg-5 text-left ">Facebook</div>
+                                <!--<span class="fa fa-facebook"></span>
+                                <span class="divisor"></span> 
+                                Facebook-->
+                                
+                            </a>
+                            <a ng-click="login.socialSignin('google')" class="btn btn-google btn-lg btn-block">
+                                <div class="col-lg-5 text-right "><span class="fa fa-google-plus"></span></div>
+                                 
+                                <div class="col-lg-5 text-left ">Google </div>
+                                
+                               <!-- <span class="fa fa-google-plus"></span> 
+                                 <span class="divisor"></span> 
+                                Google-->
+                            </a>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <script src="http://code.jquery.com/jquery.js"></script>
+        <script src="../js/bootstrap.js"></script>
+    </body>
+</html>

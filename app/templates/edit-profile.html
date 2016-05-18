@@ -1,0 +1,101 @@
+<header ng-include="'templates/menu.html'"></header>
+<div class="modal fade" id="modal" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalLabel">Adjust Image</h4>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    <canvas width="500" height="300" id="canvas" image-cropper image="cropper.sourceImage" cropped-image="cropper.croppedImage" crop-width="200" crop-height="200" keep-aspect="true" touch-radius="30" crop-area-bounds="bounds"></canvas>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="confirma()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Loading -->
+<div class="modal fade" id="modalLoading" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalLabel">Uploading</h4>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    <i class="fa fa-spinner fa-spin fa-5x"></i>						
+                </div>
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Sucesso -->
+<div class="modal fade" id="modalSucess" role="dialog" aria-labelledby="modalLabel" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalLabel">Success</h4>
+            </div>
+            <div class="modal-body">
+
+                <div>
+                    <p>Profile Updated</p>					
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="redirect()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="box">
+
+    <h1>Profile Editor</h1>
+    <div class="row">				
+
+        <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-6 col-md-offset-3">
+            <form action="" method="POST" class="card-profile clearfix">
+                <div class="card-profile-block image">
+                    <img src="{{imageUrl}}" alt="" style="height:25em;"/>
+                    <div class="profile-image-overlay" ng-click="troca()">
+                        Switch profile photo
+                    </div>
+                </div>
+                <div class="card-profile-block full username">
+                    <input ng-model="editPerfil.nome" type="text" class="edit-username form-control" placeholder="Username" />
+                </div>
+                <div class="card-profile-block full bio">
+                    <textarea ng-model="editPerfil.about" name="" id="" class="edit-bio form-control" placeholder="About you"></textarea>
+                </div>
+                <div class="card-profile-block no-style left">
+                    <input type="button" class="submit-profile form-control" value="Update user" ng-click="grava()"/>
+                </div>
+                <div class="card-profile-block attributes right">
+                    <span class="traded-cards">{{editPerfil.trocas}}</span>/<span class="own-cards">{{editPerfil.cartas}}</span>
+                </div>
+            </form>
+
+
+            <img ng-src="" ng-show="imageUrl" />
+            <input id="foto" type="file" accept="*/*" ng-model="filename" ng-show="false" img-cropper-fileread image="cropper.sourceImage" />
+
+        </div>
+    </div>
+</div>

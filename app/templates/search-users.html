@@ -1,0 +1,46 @@
+            <header ng-include="'templates/menu.html'"></header>
+            <div class="box">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Search Users</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <form class="card-collection-form " action="">
+                            <div class="form-group">
+                                <div class="input-group ">
+                                    <input type="text" ng-model="search" name="search" class="form-control search" placeholder="Search" >
+                                    <div class="input-group-addon"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <section class="collection">
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3 search animate" 
+                             ng-repeat="user in users | filter:{firstName:search }" ng-model-options="{debounce:900} ">
+                            <div class="search card-profile clearfix">
+                                <div class="card-profile-block image">
+                                    <img src="../img/profile-example.jpg" alt=""/>
+                                </div>
+                                <div class="card-profile-block full username">
+                                   {{user.firstName}}
+                                </div>
+                                <div class="card-profile-block full bio">
+                                    <p> {{user.firstName+" "+user.lastName}}</p>
+                                    <p> {{user.email}}</p>
+                                     
+                                     <p class="description"> {{user.description}}</p>
+                                </div>
+                                <div class="card-profile-block right">
+                                    <span class="traded-cards">{{}}</span>/<span class="own-cards">{{user.qtde_cards}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>

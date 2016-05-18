@@ -1,0 +1,89 @@
+﻿<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <!-- build:css({.tmp,app}) styles/vendor.css -->
+    <!-- endbuild -->
+
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="assets/styles/bootstrap-social.css">
+    <link rel="stylesheet" href="assets/styles/font-awesome.min.css">
+    
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- endbuild -->
+  </head>
+  <body ng-app="mytodoApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+    <div class="container" ui-view></div>
+
+    <!-- build:js({.tmp,./}) scripts/vendor.js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+    <script src="bower_components/angular-ui-sortable/sortable.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angularbknd-sdk/dist/backand.min.js"></script>
+	
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="app.js"></script>
+    <script src="views/main/todoList.js"></script>
+    <script src="views/main/header.js"></script>
+    <script src="views/auth/login.js"></script>
+    <script src="views/auth/reset-password.js"></script>
+    <script src="views/auth/change-password.js"></script>
+    <script src="services/auth_service.js"></script>
+    <script src="services/todo_service.js"></script>
+    <script src="config/interceptors/todo_http_interceptor.js"></script>
+    <script src="config/consts.js"></script>
+	
+	<script src="controllers/cadastroController.js"></script>
+	<script src="controllers/loginController.js"></script>
+	<script src="controllers/editPerfilController.js"></script>
+	<script src="controllers/viewPerfilConttroller.js"></script>
+    <script src="controllers/searchUsersController.js"></script>
+    <script src="controllers/addCardController.js"></script>
+    <script src="controllers/searchCardController.js"></script>
+	<script src="controllers/searchExchangeableCardsController.js"></script>
+	<script src="controllers/cardDetailsController.js"></script>
+    <script src="controllers/cardCollectionController.js"></script>
+    <script src="controllers/myExchangeableController.js"></script>
+    <script src="controllers/exchangeController.js"></script>
+    <script src="controllers/indexController.js"></script>
+    <script src="controllers/loginController.js"></script>
+    <script src="controllers/myCardDetailsController.js"></script>
+	
+    <!-- endbuild -->
+    
+     <!--<script src="http://code.jquery.com/jquery.js"></script>-->
+    <script src="js/jquery-1.12.3.min.js"></script>
+    <script src="js/angular-img-cropper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-select.min.js"></script>
+
+</body>
+</html>
