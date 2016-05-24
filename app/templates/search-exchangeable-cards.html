@@ -13,7 +13,7 @@
 
 
                 <div class="form-group col-lg-2 col-md-2 col-sm-2 col-xs-12">
-                    <select class="form-control" title="Colors" ng-change="searchCards()" ng-model="color" id="color" name="color">
+                    <select class="form-control" title="Colors" ng-change="searchCards()" ng-model="color" id="color" name="color" ng-init="colorsAll()">
                         <option value="" selected>Color</option>
                         <option  ng-model="color" ng-repeat="color in colors" value="{{color}}">{{color}}</option>
                     </select>
@@ -36,6 +36,8 @@
 
     <section class="collection" ng-init="getAllCards()">
         <div class="row">
+		<div class="alert alert-danger" role="alert" ng-show="noResults">No Results Found</div>
+		
             <div class="col-xs-6 col-sm-4 col-md-3"  ng-repeat="card in cards">
                 <div class="item-collection">
                     <img class="item-collection-thumbnail" src="{{card.urlImage}}" alt="" />

@@ -23,8 +23,14 @@
 		
 		$scope.incrementTrade=function(id){
 				 $http({
-            method: 'GET',
-            url: Backand.getApiUrl() + '/1/query/data/incrementaTroca?parameters=%7B%22id%22:%22'+id+'%22%7D'})
+					method: 'GET',
+					url: Backand.getApiUrl() + '/1/query/data/incrementaTroca',
+					params:{
+						parameters:{
+							id:id
+						}
+					}
+			})
                 .success(function (cont) {                                 
 
                 })
@@ -149,7 +155,7 @@
 				})
                 .success(function (cont) {
                     $scope.cards = cont;
-                   // console.log($scope.cards);
+                  
                 })
                 .error(function (erro) {
                     console.log(erro);
@@ -166,6 +172,10 @@
 
 
         $scope.redirect = function () {
+		
+			$('#modalOk').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
             $state.go('cardCollection');
         }
 

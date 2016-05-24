@@ -71,6 +71,10 @@
 
 
         $scope.redirect = function () {
+		
+			$('#modalSucess').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();			
             $state.go('searchCards');
         }
 

@@ -1,35 +1,23 @@
 'use strict';
 (function () {
-    /**
-     * @ngdoc function
-     * @name todoApp.controller:HeaderCtrl
-     * @description
-     * # HeaderCtrl
-     * Header controller of the todoApp, identifying the current user
-     */
+    
     angular.module('tcgTrader')
-            .controller('viewPerfilController', ['Backand', '$state', '$http', '$scope', 'AuthService', viewPerfilController]);
+            .controller('viewPerfilController', ['Backand', '$state', '$http', '$scope', 'AuthService', 'ProfileService', viewPerfilController]);
 
-    function viewPerfilController(Backand, $state, $http, $scope, AuthService) {
+    function viewPerfilController(Backand, $state, $http, $scope, AuthService, ProfileService) {
 	
 	$scope.cartas = 0;
 	
 	
 	$scope.getQtd=function(){
-	
-			 $http({
-            method: 'GET',
-            url: Backand.getApiUrl() + '/1/query/data/getQtdCards?parameters=%7B%22id%22:%22'+localStorage.getItem('id')+'%22%7D'})
-                .success(function (cont) { 
-
-					
-					$scope.cartas=cont[0].qtd;
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
-	
+		ProfileService.getQtd().then(getQtdSuccess, errorHandler);
 	}
+	
+	//the service function return an array with one object that contains the property number
+	function getQtdSuccess(number){
+				$scope.cartas=number[0].qtd;
+				 
+			}
 		
 	$scope.edit=function(){
 		$state.go('editProfile');
@@ -43,36 +31,58 @@
 
               
         var self = this;
-
-        // self.id = AuthService.currentUser.id;
-
-
-
-        //console.log( localStorage.getItem('id'));
-        //console.log(Backand.getApiUrl());
-
-        $http({
-            method: 'GET',
-            url: Backand.getApiUrl() + '/1/objects/users/'+localStorage.getItem('id')})
-                .success(function (cont) {
-
-                    console.log(cont);
-
-                    $scope.nome = cont.firstName;
-                    $scope.about = cont.description;
-                    $scope.trocas = cont.exchanges;
-                    
-					
-					$scope.getQtd();
-					
-					if(cont.photo!=""){
-						$scope.imageUrl=cont.photo;
+		
+		
+		//get user data
+            $scope.getProfile = function () {
+			
+			ProfileService.get().then(getSuccess, errorHandler);
+               
+            }
+			
+			function getSuccess(data){
+				 $scope.nome = data.firstName;
+                 $scope.about = data.description;
+                 $scope.trocas = data.exchanges;
+				 if(data.photo!=""){
+						$scope.imageUrl=data.photo;
 					}
+					$scope.getQtd();
+				 
+			}
+			
+			$scope.getProfile();
 
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
+
+			
+			
+				
+				
+				/**
+         * Handle promise error call.
+         * Error object may have the error message in 'data' property, or in 'data.Message'.
+         * @param error
+         * @param message
+         */
+        function errorHandler(error) {
+            if (error) {
+                if (error.data) {
+                    if (error.data.split) {
+                        var msg = error.data.split(':');
+                        self.error = msg[msg.length - 1];
+                    } else if (error.data.Message) {
+                        self.error = error.data.Message;
+                    }
+                } else {
+                    self.error = JSON.stringify(error);
+                }
+
+            } else {
+                self.error = "Unexpected failure";
+            }
+
+            alert(self.error);
+        }
       
 
     }

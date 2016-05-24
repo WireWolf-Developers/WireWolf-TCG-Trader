@@ -1,98 +1,69 @@
 'use strict';
 (function () {
-    /**
-     * @ngdoc function
-     * @name todoApp.controller:HeaderCtrl
-     * @description
-     * # HeaderCtrl
-     * Header controller of the todoApp, identifying the current user
-     */
+
     angular.module('tcgTrader')
-            .controller('editPerfilController', ['Backand', '$state', '$http', '$scope', 'AuthService', editPerfilController]);
+            .controller('editPerfilController', ['Backand', '$state', '$http', '$scope', 'AuthService', 'ProfileService', editPerfilController]);
 
-    function editPerfilController(Backand, $state, $http, $scope, AuthService) {
+    function editPerfilController(Backand, $state, $http, $scope, AuthService, ProfileService) {
 	
 	
-	$scope.grava=function(){
-		
-		$http({
-            method: 'PUT',
-            url: Backand.getApiUrl() + '/1/objects/users/'+localStorage.getItem('id'),
-			data:{
-				firstName:self.nome,
-				description:self.about,
-				photo:$scope.imageUrl
-					}})
-                .success(function (cont) {
+		 var self = this;
 
-                    $('#modalSucess').modal('show');
 
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
-		
-		
-	}
-	
-	$scope.redirect=function(){
-		$state.go('userProfile');
-	}
-	
-	
+        $scope.grava = function () {
 
-	$scope.confirma=function(){
-		//console.log( $scope.cropper.croppedImage);
-		
-		$('#modalLoading').modal('show');
-		
-		  upload(localStorage.getItem('id')+".png", $scope.cropper.croppedImage).then(function (res) {
-                    $scope.imageUrl = res.data.url;                   
+            ProfileService.grava(self.nome, self.about, $scope.imageUrl).then(updateSuccess, errorHandler);
+        }
 
-                    console.log($scope.imageUrl);
-					$('#modalLoading').modal('hide');
-                }, function (err) {
-                    alert(err.data);
-					$('#modalLoading').modal('hide');
-                });
-		
-					
-		
-	};
-	
-	// register to change event on input file 
+        function updateSuccess() {
+            $('#modalSucess').modal('show');
+
+        }
+
+        $scope.redirect = function () {
+
+            $('#modalSucess').modal('hide');
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+
+            $state.go('userProfile');
+        }
+
+
+
+        $scope.confirma = function () {
+
+            $('#modalLoading').modal('show');
+
+            //upload image to Backand Server
+            ProfileService.upload(localStorage.getItem('id') + ".png", $scope.cropper.croppedImage).then(uploadSuccess, errorHandler);
+        };
+
+        function uploadSuccess(res) {
+            $scope.imageUrl = res.url + '?' + new Date().getTime();
+            $('#modalLoading').modal('hide');
+        }
+
+        // register to change event on input file 
         function change() {
             var fileInput = document.getElementById('foto');
 
+            //open modal with cropper
             fileInput.addEventListener('change', function (e) {
                 $('#modal').modal('show');
             });
         }
-	change();
-	
-	
-	 $scope.cropper = {};
+        change();
+
+        //initialize cropper
+        $scope.cropper = {};
         $scope.cropper.sourceImage = null;
-        $scope.cropper.croppedImage   = null;
+        $scope.cropper.croppedImage = null;
         $scope.bounds = {};
         $scope.bounds.left = 0;
         $scope.bounds.right = 500;
         $scope.bounds.top = 500;
-        $scope.bounds.bottom = 0;
-
-	
-	
-	
-	
-
-        // Create a server side action in backand
-        // Go to any object's actions tab 
-        // and click on the Backand Storage icon.
-        // Backand consts:
-        var baseUrl = '/1/objects/';
-        var baseActionUrl = baseUrl + 'action/'
-        var objectName = 'backandUsers';
-        var filesActionName = 'salvaFoto';
+        $scope.bounds.bottom = 0;        
 
 
         $scope.troca = function troca() {
@@ -108,116 +79,66 @@
 
        
 
-        // input file onchange callback
-        function imageChanged(fileInput) {
 
 
-            //read file content
-            var file = fileInput.files[0];
-            var reader = new FileReader();
+        $scope.getQtd = function () {
+            ProfileService.getQtd().then(getQtdSuccess, errorHandler);
+        }
 
-            reader.onload = function (e) {
-                upload(file.name, e.currentTarget.result).then(function (res) {
-                    $scope.imageUrl = res.data.url;
-                    $scope.filename = file.name;
+        //the service function return an array with one object that contains the property number
+        function getQtdSuccess(number) {
+            self.cartas = number[0].qtd;
 
-                    console.log($scope.imageUrl);
-                }, function (err) {
-                    alert(err.data);
-                });
-            };
-
-            reader.readAsDataURL(file);
-        };
+        }
 
 
-      
+        //get user data
+        $scope.getProfile = function () {
+
+            ProfileService.get().then(getSuccess, errorHandler);
+
+        }
+
+        function getSuccess(data) {
+            self.nome = data.firstName;
+            self.about = data.description;
+            self.trocas = data.exchanges;
+            if (data.photo != "") {
+                $scope.imageUrl = data.photo;
+            }
+            $scope.getQtd();
+        }
+
+        $scope.getProfile();
 
 
-
-        // call to Backand action with the file name and file data  
-        function upload(filename, filedata) {
-		
-		
-		//console.log(filedata);
-            // By calling the files action with POST method in will perform 
-            // an upload of the file into Backand Storage
-			
-			
-            return $http({
-                method: 'POST',
-                url: Backand.getApiUrl() + baseActionUrl + objectName,
-                params: {
-                    "name": filesActionName
-                },
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                // you need to provide the file name and the file data
-                data: {
-                    "filename": filename,
-                    "filedata": filedata.substr(filedata.indexOf(',') + 1, filedata.length) //need to remove the file prefix type
+        /**
+         * Handle promise error call.
+         * Error object may have the error message in 'data' property, or in 'data.Message'.
+         * @param error
+         * @param message
+         */
+        function errorHandler(error) {
+            if (error) {
+                if (error.data) {
+                    if (error.data.split) {
+                        var msg = error.data.split(':');
+                        self.error = msg[msg.length - 1];
+                    } else if (error.data.Message) {
+                        self.error = error.data.Message;
+                    }
+                } else {
+                    self.error = JSON.stringify(error);
                 }
-            });
-        } ;
 
+            } else {
+                self.error = "Unexpected failure";
+            }
 
-
-
-
-
-        var self = this;
-
-        // self.id = AuthService.currentUser.id;
-
-
-
-        //console.log( localStorage.getItem('id'));
-        //console.log(Backand.getApiUrl());
-
-		
-		$scope.getQtd=function(){
-	
-			 $http({
-            method: 'GET',
-            url: Backand.getApiUrl() + '/1/query/data/getQtdCards?parameters=%7B%22id%22:%22'+localStorage.getItem('id')+'%22%7D'})
-                .success(function (cont) { 
-
-					
-					self.cartas=cont[0].qtd;
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
-	
-	}
-		
-		
-        $http({
-            method: 'GET',
-            url: Backand.getApiUrl() + '/1/objects/users/'+localStorage.getItem('id')})
-                .success(function (cont) {
-
-                    console.log(cont);
-					
-					$scope.getQtd();
-
-                    self.nome = cont.firstName;
-                    self.about = cont.description;
-                    self.trocas = cont.exchanges;
-                    
-					if(cont.photo!=""){
-						$scope.imageUrl=cont.photo;
-					}
-
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
-      
+            alert(self.error);
+        }
 
     }
-
 
 
 })();

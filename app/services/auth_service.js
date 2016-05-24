@@ -110,6 +110,10 @@
                 angular.copy({}, self.currentUser);
             });
         };
+		
+		self.exit=function(){
+			alert('oi');
+		}
 
     }
 

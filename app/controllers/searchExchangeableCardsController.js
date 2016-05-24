@@ -2,10 +2,11 @@
 angular.module('tcgTrader').controller('searchExchangeableCardController',
         function ($scope, $http, $state, Backand, SearchExService, DeckBrewService) {
 
-            var url = 'https://api.deckbrew.com/mtg';
+
             var self = this;
             $scope.colors = [];
             $scope.cards = [];
+			$scope.noResults=false;
 
             $scope.troca = function (id) {
                 $state.go('exchangeCards', {id: id});
@@ -52,6 +53,11 @@ angular.module('tcgTrader').controller('searchExchangeableCardController',
          */
         function onSearchSuccess(cards) {
             $scope.cards=cards;
+			if(cards.length==0){
+				$scope.noResults=true;
+			}else{
+				$scope.noResults=false;
+			}
         }
 		
 		 /**
@@ -80,8 +86,7 @@ angular.module('tcgTrader').controller('searchExchangeableCardController',
             alert(self.error);
         }
      
-           //initialize colors
-            $scope.colorsAll();
+          
 			//initialize cards
             $scope.all();
 

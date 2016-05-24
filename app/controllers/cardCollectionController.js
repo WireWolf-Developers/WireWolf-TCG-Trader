@@ -1,20 +1,15 @@
 'use strict';
 (function () {
-    /**
-     * @ngdoc function
-     * @name todoApp.controller:HeaderCtrl
-     * @description
-     * # HeaderCtrl
-     * Header controller of the todoApp, identifying the current user
-     */
+   
 
     angular.module('tcgTrader')
             .controller('cardCollectionController', ['Backand', '$state', '$http', '$scope', cardCollection]);
+			
 
             function cardCollection(Backand, $state, $http, $scope) {
             	var parameters = [];
             	var self = this;
-            	$scope.cards = [];
+            	$scope.cards = [];			
 
 				// Get all collection
             	$scope.getCollection = function() {
