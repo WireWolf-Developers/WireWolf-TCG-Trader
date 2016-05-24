@@ -1,7 +1,7 @@
 
 angular.module('tcgTrader').controller('searchCardController', 
 
-  function($scope, $http, $state) {
+  function($scope, $http, $state, DeckBrewService) {
            
         var url = 'https://api.deckbrew.com/mtg';
         var self = this;
@@ -40,36 +40,66 @@ angular.module('tcgTrader').controller('searchCardController',
 
         // return all sets of card
         $scope.setsAll = function(){
-          $http.get(url + '/sets')
-            .then(function successCallback(response) {
-              $scope.sets = response.data;
-            }, function errorCallback(response) {
-              alert("Errmac");
-            });
+           DeckBrewService.setsAll().then(setsSuccess, errorHandler);
         };
+		
+		function setsSuccess(sets){
+				$scope.sets=sets.data;
+			}
 
-        // return all colors of mana
-        $scope.colorsAll = function(){
-          $http.get(url + '/colors')
-            .then(function successCallback(response) {
-              $scope.colors = response.data;
-            }, function errorCallback(response) {
-              alert("Errmac");
-            });
-        };
+       
+       // return all colors of mana
+            $scope.colorsAll = function () {
+                DeckBrewService.colorsAll().then(colorSuccess, errorHandler);
+            };
 
+			function colorSuccess(colors){
+				$scope.colors=colors.data;
+			}
+			
+			
         // Get all types of cards
         $scope.typesAll = function(){
-          $http.get(url + '/types')
-            .then(function successCallback(response) {
-              $scope.types = response.data;
-            }, function errorCallback(response) {
-              alert("Errmac");
-            });
+          DeckBrewService.typesAll().then(typesSuccess, errorHandler);
         };
+		
+		function typesSuccess(types){
+				$scope.types=types.data;
+			}
+		
 
         $scope.cardDetails = function(id) {
           $state.go('cardDetails', {multiverseid: id});
         };
+		
+		
+		
+		 /**
+         * Handle promise error call.
+         * Error object may have the error message in 'data' property, or in 'data.Message'.
+         * @param error
+         * @param message
+         */
+        function errorHandler(error) {
+            if (error) {
+                if (error.data) {
+                    if (error.data.split) {
+                        var msg = error.data.split(':');
+                        self.error = msg[msg.length - 1];
+                    } else if (error.data.Message) {
+                        self.error = error.data.Message;
+                    }
+                } else {
+                    self.error = JSON.stringify(error);
+                }
+
+            } else {
+                self.error = "Unexpected failure";
+            }
+
+            alert(self.error);
+        }		
+		
+		
 
         });

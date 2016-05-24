@@ -80,8 +80,9 @@ angular.module('tcgTrader').controller('searchExchangeableCardController',
             alert(self.error);
         }
      
-           
+           //initialize colors
             $scope.colorsAll();
+			//initialize cards
             $scope.all();
 
         });
