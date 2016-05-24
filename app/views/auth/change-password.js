@@ -9,7 +9,7 @@
      * change password for signed in user (with old password) and for forgot password (with token)
      */
 
-    angular.module('mytodoApp')
+    angular.module('tcgTrader')
         .controller('ChangePasswordCtrl', ['AuthService', '$location', ChangePasswordCtrl]);
 
     function ChangePasswordCtrl(AuthService, $location) {

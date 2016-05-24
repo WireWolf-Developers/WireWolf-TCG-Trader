@@ -8,7 +8,7 @@
      * Backand reset password controller - request change password link to be sent via email
      */
 
-    angular.module('mytodoApp')
+    angular.module('tcgTrader')
         .controller('ResetPasswordCtrl', ['AuthService', '$location', '$state', ResetPasswordCtrl]);
 
     function ResetPasswordCtrl(AuthService, $location, $state) {

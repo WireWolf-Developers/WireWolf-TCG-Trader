@@ -1,14 +1,14 @@
 'use strict';
 
-angular.module('mytodoApp', [
+angular.module('tcgTrader', [
     'backand',
     'ngResource',
     'ngSanitize',
     'ui.router',
     'ui.sortable',
-    'mytodoApp.config.interceptors',
+    'tcgTrader.config.interceptors',
     'ngAnimate',
-    'mytodoApp.config.consts',
+    'tcgTrader.config.consts',
     'angular-img-cropper'
 ])
         .config(['$stateProvider', '$httpProvider', '$urlRouterProvider', 'BackandProvider', 'CONSTS',

@@ -1,5 +1,5 @@
 (function () {
-    angular.module('mytodoApp')
+    angular.module('tcgTrader')
 	
 	        .service('AuthService', ['Backand', '$http', AuthService]);			
 		

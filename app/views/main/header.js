@@ -7,7 +7,7 @@
      * # HeaderCtrl
      * Header controller of the todoApp, identifying the current user
      */
-    angular.module('mytodoApp')
+    angular.module('tcgTrader')
         .controller('HeaderCtrl', ['$state', 'AuthService', HeaderCtrl]);
 
     function HeaderCtrl($state, AuthService) {

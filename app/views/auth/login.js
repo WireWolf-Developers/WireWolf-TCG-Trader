@@ -8,7 +8,7 @@
      * Backand login control - need to implement in order to get the token for authentication
      */
 
-    angular.module('mytodoApp')
+    angular.module('tcgTrader')
         .controller('LoginCtrl', ['AuthService', '$state', LoginCtrl]);
 
     function LoginCtrl(AuthService, $state) {

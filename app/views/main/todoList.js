@@ -7,7 +7,7 @@
      * # TodoListCtrl
      * Todo List controller of the todoApp for viewing and adding to do items
      */
-    angular.module('mytodoApp')
+    angular.module('tcgTrader')
         .controller('TodoListCtrl', ['TodoService', TodoListCtrl]);
 
     function TodoListCtrl(TodoService) {

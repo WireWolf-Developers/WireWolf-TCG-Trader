@@ -27,6 +27,6 @@
         };
     }
 
-    angular.module('mytodoApp.config.interceptors', [])
+    angular.module('tcgTrader.config.interceptors', [])
         .factory('todoHttpInterceptor', ['$q', '$injector', 'Backand', todoHttpInterceptor]);
 })();

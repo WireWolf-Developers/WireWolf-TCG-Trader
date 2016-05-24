@@ -1,6 +1,6 @@
 
-angular.module('mytodoApp').controller('searchExchangeableCardController',
-        function ($scope, $http, $state, Backand) {
+angular.module('tcgTrader').controller('searchExchangeableCardController',
+        function ($scope, $http, $state, Backand, SearchExService, DeckBrewService) {
 
             var url = 'https://api.deckbrew.com/mtg';
             var self = this;
@@ -11,10 +11,7 @@ angular.module('mytodoApp').controller('searchExchangeableCardController',
                 $state.go('exchangeCards', {id: id});
             }
 
-            /* 
-             Filter cards using the Backand custom query filtraCartasTroca
-             SELECT * FROM card WHERE exchangeable=1 AND IdUsers!='{{id}}' AND Colors like '%{{color}}%' AND NAME like '%{{name}}%'
-             */
+           //filter cards
             $scope.searchCards = function () {
 
                 var cor = $scope.color;
@@ -27,64 +24,61 @@ angular.module('mytodoApp').controller('searchExchangeableCardController',
                     nome = "";
                 }
 
-                $http({
-                    method: 'GET',
-                    url: Backand.getApiUrl() + '/1/query/data/filtraCartasTroca',
-                    params: {
-                        parameters: {
-                            color: cor,
-                            id: localStorage.getItem('id'),
-                            name: nome
-                        }
-                    }
-                })
-                        .success(function (cont) {
-
-                            console.log(cont);
-                            $scope.cards = cont;
-
-                        })
-                        .error(function (erro) {
-                            console.log(erro);
-                        });
+               SearchExService.search(cor, nome).then(onSearchSuccess, errorHandler);
             }
 
-            /*
-             Get all exchangeable cards using the Backand custom query todasCartasTroca
-             SELECT * FROM card WHERE exchangeable=1 AND idUsers!='{{id}}'
-             */
-
+           
+			//get all cards
             $scope.all = function () {
-
-                $http({
-                    method: 'GET',
-                    url: Backand.getApiUrl() + '/1/query/data/todasCartasTroca',
-                    params: {
-                        parameters: {
-                            id: localStorage.getItem('id')
-                        }
-                    }
-                })
-                        .success(function (cont) {
-                            $scope.cards = cont;
-
-                        })
-                        .error(function (erro) {
-                            console.log(erro);
-                        });
+			
+			SearchExService.all().then(onSearchSuccess, errorHandler);
+               
             }
 
         
             // return all colors of mana
             $scope.colorsAll = function () {
-                $http.get(url + '/colors')
-                        .then(function successCallback(response) {
-                            $scope.colors = response.data;
-                        }, function errorCallback(response) {
-                            alert("Errmac");
-                        });
+                DeckBrewService.colorsAll().then(colorSuccess, errorHandler);
             };
+			
+			function colorSuccess(colors){
+				$scope.colors=colors.data;
+			}
 
+			
+			  /**
+         * Success promise call with the list
+         * @param data
+         */
+        function onSearchSuccess(cards) {
+            $scope.cards=cards;
+        }
+		
+		 /**
+         * Handle promise error call.
+         * Error object may have the error message in 'data' property, or in 'data.Message'.
+         * @param error
+         * @param message
+         */
+        function errorHandler(error) {
+            if (error) {
+                if (error.data) {
+                    if (error.data.split) {
+                        var msg = error.data.split(':');
+                        self.error = msg[msg.length - 1];
+                    } else if (error.data.Message) {
+                        self.error = error.data.Message;
+                    }
+                } else {
+                    self.error = JSON.stringify(error);
+                }
+
+            } else {
+                self.error = "Unexpected failure";
+            }
+
+            alert(self.error);
+        }
      
            
             $scope.colorsAll();

@@ -7,7 +7,7 @@
      * # HeaderCtrl
      * Header controller of the todoApp, identifying the current user
      */
-    angular.module('mytodoApp')
+    angular.module('tcgTrader')
             .controller('editPerfilController', ['Backand', '$state', '$http', '$scope', 'AuthService', editPerfilController]);
 
     function editPerfilController(Backand, $state, $http, $scope, AuthService) {

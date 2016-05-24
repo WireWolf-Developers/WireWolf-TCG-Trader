@@ -3,7 +3,7 @@
  */
 (function () {
 
-    angular.module('mytodoApp')
+    angular.module('tcgTrader')
         .service('TodoService', ['$http', 'Backand', 'AuthService', TodoService]);
 
     function TodoService($http, Backand, AuthService) {

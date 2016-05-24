@@ -1,5 +1,5 @@
 
-angular.module('mytodoApp').controller('searchCardController', 
+angular.module('tcgTrader').controller('searchCardController', 
 
   function($scope, $http, $state) {
            

@@ -7,7 +7,7 @@
      * # HeaderCtrl
      * Header controller of the todoApp, identifying the current user
      */
-    angular.module('mytodoApp')
+    angular.module('tcgTrader')
             .controller('myExchangeableController', ['Backand', '$state', '$scope', '$http', 'AuthService', myExchangeableController]);
 
     function myExchangeableController(Backand, $state, $scope, $http, AuthService) {
