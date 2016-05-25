@@ -12,30 +12,13 @@ angular.module('tcgTrader').controller('searchCardController',
 
         // Search cards with paramenters
         $scope.searchCards = function(){
-          $http.get(url + '/cards',
-            {params:{"set": $scope.set, "color": $scope.color, "rarity": $scope.rarity, "type": $scope.type, "name":$scope.name}})
-            .then(function successCallback(response) {
-              var json = JSON.stringify(response) 
-             // alert(json);
-              // item-collection-thumbnail" ng-src="http://gatherer.wizards.com/Handlers/Image.ashx?type=card&multiverseid={{user.editions[0].multiverse_id}}
-              $scope.cards = response.data;
-			       //console.log($scope.cards);
-            }, function errorCallback(response) {
-              alert(JSON.stringify(response));
-            });
+          DeckBrewService.getCardsByFilter($scope.set, $scope.color, $scope.rarity, $scope.type, $scope.name, $scope.format)
+          .then(allCardsSuccess, errorHandler);
         };
 
         // Return all cards (the first 100)
         $scope.getAllCards = function() {
-          $http.get(url + '/cards?page=1')
-            .then(function successCallback(response) {
-              var json = JSON.stringify(response) 
-             // alert(json);
-              $scope.cards = response.data;
-			         //console.log($scope.cards[0].editions[0].image_url);
-            }, function errorCallback(response) {
-              alert(JSON.stringify(response));
-            });
+          DeckBrewService.getAllCards().then(allCardsSuccess, errorHandler);
         };
 
         // return all sets of card
@@ -43,19 +26,19 @@ angular.module('tcgTrader').controller('searchCardController',
            DeckBrewService.setsAll().then(setsSuccess, errorHandler);
         };
 		
-		function setsSuccess(sets){
-				$scope.sets=sets.data;
-			}
+  		  function setsSuccess(sets){
+  				$scope.sets=sets.data;
+  			};
 
        
-       // return all colors of mana
-            $scope.colorsAll = function () {
-                DeckBrewService.colorsAll().then(colorSuccess, errorHandler);
-            };
+      // return all colors of mana
+      $scope.colorsAll = function () {
+          DeckBrewService.colorsAll().then(colorSuccess, errorHandler);
+      };
 
 			function colorSuccess(colors){
-				$scope.colors=colors.data;
-			}
+				$scope.colors = colors.data;
+			};
 			
 			
         // Get all types of cards
@@ -63,13 +46,17 @@ angular.module('tcgTrader').controller('searchCardController',
           DeckBrewService.typesAll().then(typesSuccess, errorHandler);
         };
 		
-		function typesSuccess(types){
-				$scope.types=types.data;
-			}
-		
+  		  function typesSuccess(types){
+  				$scope.types = types.data;
+  			};		
 
         $scope.cardDetails = function(id) {
           $state.go('cardDetails', {multiverseid: id});
+        };
+
+        /* Success all cards */
+        function allCardsSuccess(cards){
+          $scope.cards = cards.data;
         };
 		
 		

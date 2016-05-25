@@ -9,6 +9,26 @@
         var self = this;   
 		var url = 'https://api.deckbrew.com/mtg';		
 
+		/*
+		Get cards by filter
+		*/
+		self.getCardsByFilter = function (set, color, rarity, type, name, format) {
+            return $http.get(url + '/cards',{
+            	params:{"set": set, "color": color, "rarity": rarity, "type": type, "name": name, "format": format}
+            }).then(function(response) {
+                return response;
+            });
+        };
+
+		/*
+		Get all cards
+		*/
+		self.getAllCards = function () {
+            return $http.get(url + '/cards?page=1').then(function(response) {
+                return response;
+            });
+        };
+
 	    /* 
          Get all colors from DeckBrew API
           */
