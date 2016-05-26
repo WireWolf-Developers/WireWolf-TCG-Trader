@@ -35,6 +35,15 @@ angular.module('tcgTrader').controller('searchCardController',
           DeckBrewService.colorsAll().then(colorSuccess, errorHandler);
       };
 
+      // Add card to my collection
+      /*$scope.addToColletion = function() {
+        BackandService.add().then(addedToCollection, errorHandler);
+      };*/
+
+      function addedToCollection() {
+        $state.go('collection');
+      };
+
   		function colorSuccess(colors){
   			$scope.colors = colors.data;
   		};

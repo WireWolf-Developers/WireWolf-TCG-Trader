@@ -69,9 +69,20 @@
             <div class="col-xs-6 col-sm-4 col-md-3"  ng-repeat="card in cards">
                 <div class="item-collection">
                     <img class="item-collection-thumbnail" src="{{card.editions[0].image_url}}" alt="" />
-                    <div class="item-collection-overlay" ng-click="cardDetails(card.editions[0].multiverse_id)">
-                        {{card.name}}
-                    </div>
+                    <div class="item-collection-overlay" ng-click="cardDetails(card.editions[0].multiverse_id)">                        
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><p>{{card.name}}</p></li>
+                            <br/>
+                            <li>
+                                <div class="panel-footer">
+                                // name, type, set, colors, img
+                                    <input type="button" class="form-control btn btn-primary" value="Add to Collection" 
+                                        ng-click="addToColletion()"/>
+                                </div>
+                            </li>
+                        </ul>                        
+                        
+                    </div>                    
                 </div>
             </div>
         </div>

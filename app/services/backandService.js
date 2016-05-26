@@ -39,5 +39,25 @@
 					});
 
         };
+
+        /*
+		Add to collection
+        */
+        self.add = function (name, type, set, colors, img) {
+            return $http({
+                method: 'POST',
+                url: Backand.getApiUrl() + '/1/objects/card',
+                data: {
+                    card: cardId,
+                    idUsers: localStorage.getItem('id'),
+                    name: name,
+                    type: type,
+                    collection: set,
+                    colors: colors,
+                    urlImage: img
+
+                }
+            });
+        };
     }
 }());
