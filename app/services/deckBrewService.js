@@ -10,7 +10,7 @@
 		var url = 'https://api.deckbrew.com/mtg';		
 
 		/*
-		Get cards by filter
+		Get cards with filter
 		*/
 		self.getCardsByFilter = function (set, color, rarity, type, name, format) {
             return $http.get(url + '/cards',{
