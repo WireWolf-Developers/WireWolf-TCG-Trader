@@ -8,6 +8,7 @@ Do you collect Magic The Gathering Cards? Wanna trade cards? We have a platform 
 ### How to set up the enviroment ###
 - Clone this repository
 - CD to directory you cloned the repository
+- npm cache clean (to avoid issues with npm install)
 - npm install
 - bower install
 
