@@ -7,7 +7,17 @@
     function DeckBrewService($http, Backand, AuthService) {
 
         var self = this;   
-		var url = 'https://api.deckbrew.com/mtg';		
+		var url = 'https://api.deckbrew.com/mtg';	
+
+
+/*
+		Get card details
+		*/
+		self.getDetails = function (cardId) {
+            return $http.get(url + '/cards?multiverseid=' + cardId).then(function(response) {
+                return response;
+            });
+        };		
 
 		/*
 		Get cards with filter

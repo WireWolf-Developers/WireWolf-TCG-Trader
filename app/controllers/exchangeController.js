@@ -10,73 +10,23 @@
 
         $scope.desiredCardId = $state.params.id;
 		$scope.idUserToTrade=0;
-		$scope.ownCard="";
-		
-		console.log("Id da carta: "+$state.params.id);
-		
-		
-		$scope.incrementTrade=function(id){
-				 $http({
-					method: 'GET',
-					url: Backand.getApiUrl() + '/1/query/data/incrementaTroca',
-					params:{
-						parameters:{
-							id:id
-						}
-					}
-			})
-                .success(function (cont) {                                 
-
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
-		}
-		
+		$scope.ownCard="";	
+			
+				
 		
 		
 		$scope.myToThem=function(){
 		
-		$http({
-            method: 'PUT',
-            url: Backand.getApiUrl() + '/1/objects/card/'+$scope.ownCard,
-			data:{
-				idUsers:$scope.idUserToTrade,
-				exchangeable:0
-					}})
-                .success(function (cont) {
-
-					console.log("Carta: "+$scope.ownCard+" para usuário: "+$scope.idUserToTrade);
-                   // $('#modalSucess').modal('show');
-
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
-		
-		
+			exService.trade($scope.ownCard, $scope.idUserToTrade).then(myToThemSuccess, errorHandler);			
 		}
 		
-		$scope.themToMy=function(){
+		function tradeSuccess(res) {			
+			console.log("Carta: "+$scope.ownCard+" para usuário: "+$scope.idUserToTrade);			
+        }
 		
 		
-			$http({
-            method: 'PUT',
-            url: Backand.getApiUrl() + '/1/objects/card/'+$scope.desiredCardId,
-			data:{
-				idUsers:localStorage.getItem('id'),
-				exchangeable:0
-					}})
-                .success(function (cont) {
-
-					console.log("Carta: "+$scope.desiredCardId+" para usuário: "+localStorage.getItem('id'));
-                   // $('#modalSucess').modal('show');
-
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
-		
+		$scope.themToMy=function(){		
+			exService.trade($scope.desiredCardId, localStorage.getItem('id')).then(tradeSuccess, errorHandler);			
 		}
 		
 		
@@ -86,64 +36,35 @@
 			}else{
 				$scope.myToThem();
 				$scope.themToMy();
-				$scope.incrementTrade($scope.idUserToTrade);
-				$scope.incrementTrade(localStorage.getItem('id'));
-				
+				exService.incrementTrade($scope.idUserToTrade);
+				exService.incrementTrade(localStorage.getItem('id'));				
 				
 				$('#modalOk').modal('show');
 				
 			}
 		}
 
+		
+		//get desired card data
 		$scope.getDesired=function(){
 		
-			 $http({
-            method: 'GET',
-            url: Backand.getApiUrl() + '/1/objects/card/'+$scope.desiredCardId})
-                .success(function (cont) {                                     
-					$scope.desiredImg=cont.urlImage;
-					$scope.idUserToTrade=cont.idUsers;
-					
-					console.log($scope.idUserToTrade);
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
+		exService.getDesired($scope.desiredCardId).then(desiredSuccess, errorHandler);			
 		}
+		
+		function desiredSuccess(card) {			
+			$scope.desiredImg=card.urlImage;
+            $scope.idUserToTrade=card.idUsers;				
+        }
 
 		$scope.getDesired();
-       
-
-        $scope.getDetails = function () {
-            //   console.log($scope.cardId);
-            $http.get(url + '/cards?multiverseid=' + $scope.cardId)
-                    .then(function successCallback(response) {
-                        var json = JSON.stringify(response);
-                        // alert(json);
-                        $scope.details = response.data[0];
-                        $scope.name = $scope.details.name;
-                        $scope.type = $scope.details.types.join('-');
-                        $scope.description = $scope.details.text;
-                        $scope.rarity = $scope.details.editions[0].rarity;
-                        $scope.number = $scope.details.editions[0].number;
-                        $scope.set = $scope.details.editions[0].set;
-                        $scope.power = $scope.details.power + "/" + $scope.details.toughness;
-                        $scope.img = $scope.details.editions[0].image_url;
-                        $scope.colors = $scope.details.colors.join('-');
-
-                    }, function errorCallback(response) {
-                        alert(JSON.stringify(response));
-                    });
-        };
-
+               
 		
 		//Get user exchangeable cards
        $scope.myEx=function(){  	  
 				exService.myEx().then(myExSuccess, errorHandler);				
 	   }
 	   
-	   function myExSuccess(cards) {
-			
+	   function myExSuccess(cards) {			
 			$scope.cards = [];
             $scope.cards=cards;		
         }
