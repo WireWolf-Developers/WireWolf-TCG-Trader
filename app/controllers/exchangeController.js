@@ -1,16 +1,10 @@
 'use strict';
 (function () {
-    /**
-     * @ngdoc function
-     * @name todoApp.controller:HeaderCtrl
-     * @description
-     * # HeaderCtrl
-     * Header controller of the todoApp, identifying the current user
-     */
+   
     angular.module('tcgTrader')
-            .controller('exchangeController', ['Backand', '$state', '$http', '$scope', 'AuthService', exchangeController]);
+            .controller('exchangeController', ['Backand', '$state', '$http', '$scope', 'AuthService', 'exService', exchangeController]);
 
-    function exchangeController(Backand, $state, $http, $scope, AuthService) {
+    function exchangeController(Backand, $state, $http, $scope, AuthService, exService) {
 
         var url = 'https://api.deckbrew.com/mtg';
 
@@ -142,25 +136,17 @@
                     });
         };
 
-       $scope.myEx=function(){
-		    $scope.cards = [];
-				$http({
-					method: 'GET',
-					url: Backand.getApiUrl() + '/1/query/data/cardsExchangeables',
-					params: {
-						parameters: {
-							idUser: localStorage.getItem('id')
-						}
-					}
-				})
-                .success(function (cont) {
-                    $scope.cards = cont;
-                  
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
+		
+		//Get user exchangeable cards
+       $scope.myEx=function(){  	  
+				exService.myEx().then(myExSuccess, errorHandler);				
 	   }
+	   
+	   function myExSuccess(cards) {
+			
+			$scope.cards = [];
+            $scope.cards=cards;		
+        }
 	   
 	   $scope.myEx();
 	   
@@ -178,6 +164,34 @@
             $('.modal-backdrop').remove();
             $state.go('cardCollection');
         }
+		
+		
+			 /**
+         * Handle promise error call.
+         * Error object may have the error message in 'data' property, or in 'data.Message'.
+         * @param error
+         * @param message
+         */
+        function errorHandler(error) {
+            if (error) {
+                if (error.data) {
+                    if (error.data.split) {
+                        var msg = error.data.split(':');
+                        self.error = msg[msg.length - 1];
+                    } else if (error.data.Message) {
+                        self.error = error.data.Message;
+                    }
+                } else {
+                    self.error = JSON.stringify(error);
+                }
+
+            } else {
+                self.error = "Unexpected failure";
+            }
+
+            alert(self.error);
+        }
+		
 
     }
 

@@ -25,17 +25,12 @@ angular.module('tcgTrader', [
 
                 $urlRouterProvider.otherwise("/");
 
-            $stateProvider
-                .state('main', {
-                    url: '/main',
-                    abstract: true,
-                    templateUrl: 'views/main/header.html',
-                    controller: 'HeaderCtrl as header'
-                })
+           
+                
 				 /*=====================================
                  =            Paths of site            =
                  =====================================*/
-                        .state('home', {
+                         $stateProvider.state('home', {
                             url: '/',
                             templateUrl: 'templates/index.html', 
                             controller: 'indexController as index'
@@ -104,29 +99,5 @@ angular.module('tcgTrader', [
                         })
                         /*=====  End of Paths of site  ======*/
 
-                        .state('todos', {
-                            url: '',
-                            parent: 'main',
-                            templateUrl: 'views/main/todoList.html',
-                            controller: 'TodoListCtrl as todoList'
-                        })
-                        .state('changePassword', {
-                            url: 'changePassword',
-                            parent: 'main',
-                            templateUrl: 'views/auth/change-password.html',
-                            controller: 'ChangePasswordCtrl as changePassword'
-                        })
-                        .state('login2', {
-                            url: '/login2',
-                            templateUrl: 'views/auth/login.html',
-                            controller: 'LoginCtrl as login',
-                            params: {
-                                error: null
-                            }
-                        })
-                        .state('resetPassword', {
-                            url: '/resetPassword',
-                            templateUrl: 'views/auth/reset-password.html',
-                            controller: 'ResetPasswordCtrl as resetPassword'
-                        });
+                       
             }]);
