@@ -8,74 +8,50 @@
      * Header controller of the todoApp, identifying the current user
      */
     angular.module('tcgTrader')
-            .controller('myCardDetailsController', ['Backand', '$state', '$http', '$scope', 'AuthService', myCardDetailsController]);
+            .controller('myCardDetailsController', ['Backand', '$state', '$http', '$scope', 'AuthService', 'DeckBrewService', 'myCardDetailService', myCardDetailsController]);
 
-    function myCardDetailsController(Backand, $state, $http, $scope, AuthService) {
+    function myCardDetailsController(Backand, $state, $http, $scope, AuthService, DeckBrewService, myCardDetailService) {
 
-        var url = 'https://api.deckbrew.com/mtg';
+       
         $scope.message = "";
         $scope.id = $state.params.id;
         $scope.show=0;
         // console.log($scope.id);
 
         $scope.removeTrade = function () {
-            $http({
-                method: 'PUT',
-                url: Backand.getApiUrl() + '/1/objects/card/' + $scope.id,
-                data: {
-                    exchangeable: 0
-                }
-            })
-                    .success(function () {
-                        //   console.log("Alterado");
-                        $scope.message = "Card removed from echangeable area";
-                        $scope.url = "cardsToExchange";
-                        $('#modalSucess').modal('show');
-                    })
-                    .error(function (erro) {
-                        console.log(erro);
-                    });
-            ;
-
+		
+			myCardDetailService.removeTrade($scope.id).then(removeTradeSuccess, errorHandler);  
         };
+		
+		
+		function removeTradeSuccess(){
+			 $scope.message = "Card removed from echangeable area";
+             $scope.url = "cardsToExchange";
+             $('#modalSucess').modal('show');		
+		}
+		
         $scope.addTrade = function () {
-            $http({
-                method: 'PUT',
-                url: Backand.getApiUrl() + '/1/objects/card/' + $scope.id,
-                data: {
-                    exchangeable: 1
-                }
-            })
-                    .success(function () {
-                        // console.log("Alterado");
-                        $scope.url = "cardCollection";
-                        $scope.message = "Card add to Trade";
-                        $('#modalSucess').modal('show');
-                    })
-                    .error(function (erro) {
-                        console.log(erro);
-                    });
-            ;
+		
+			myCardDetailService.addTrade($scope.id).then(addTradeSuccess, errorHandler);           
 
         };
+		
+		function addTradeSuccess(){
+			 $scope.url = "cardCollection";
+             $scope.message = "Card add to Trade";
+             $('#modalSucess').modal('show');
+		}
         
          $scope.removeCollection = function () {
-            $http({
-                method: 'DELETE',
-                url: Backand.getApiUrl() + '/1/objects/card/' + $scope.id
-            })
-                    .success(function () {
-                        //   console.log("Alterado");
-                        $scope.message = "Card removed from collection";
-                        $scope.url = "cardCollection";
-                        $('#modalSucess').modal('show');
-                    })
-                    .error(function (erro) {
-                        console.log(erro);
-                    });
-            ;
-
+		 
+			myCardDetailService.removeCollection($scope.id).then(removeSuccess, errorHandler); 
         };
+		
+		function removeSuccess(){
+			$scope.message = "Card removed from collection";
+            $scope.url = "cardCollection";
+            $('#modalSucess').modal('show');
+		}
         
         
         
@@ -84,13 +60,13 @@
         };
 
         //GetDetails na API
-        $scope.getDetails = function (id) {
-            $http.get(url + '/cards?multiverseid=' + id)
-                    .then(function successCallback(response) {
-                        var json = JSON.stringify(response);
-                        // alert(json);
-                        $scope.details = response.data[0];
-                        //  console.log( $scope.details);
+        $scope.getDetails = function (id) {		
+			DeckBrewService.getDetails(id).then(getDetailsSuccess, errorHandler);			
+        };
+		
+		 function getDetailsSuccess(response){
+		
+						$scope.details = response.data[0];
                         $scope.name = $scope.details.name;
                         $scope.type = $scope.details.types.join('-');
                         $scope.description = $scope.details.text;
@@ -99,20 +75,19 @@
                         $scope.set = $scope.details.editions[0].set;
                         $scope.power = $scope.details.power + "/" + $scope.details.toughness;
                         $scope.img = $scope.details.editions[0].image_url;
-                        $scope.colors = $scope.details.colors.join('-');
+                        $scope.colors = $scope.details.colors.join('-');       
+      };
 
-                    }, function errorCallback(response) {
-                        alert(JSON.stringify(response));
-                    });
-        };
-
-        //busca a carta no bd pelo id
-        return $http({
-            method: 'GET',
-            url: Backand.getApiUrl() + '/1/objects/card/' + $scope.id
-        })
-                .success(function (cont) {
-                    $scope.mycard = cont;
+	  
+	  
+		//get card on backand by id		
+				$scope.get=function(id){
+					myCardDetailService.get(id).then(getSuccess, errorHandler);
+					
+				}
+				
+				function getSuccess(cont){
+					 $scope.mycard = cont;
                   console.log($scope.mycard.exchangeable);
                     if($scope.mycard.exchangeable===1){
                         $scope.show=1;
@@ -122,13 +97,39 @@
             
             
                     $scope.getDetails($scope.mycard.card);
-                })
-                .error(function (erro) {
-                    console.log(erro);
-                });
+				}
+				
+				$scope.get($scope.id);
+				
 
 
 
+				
+				 /**
+     * Handle promise error call.
+     * Error object may have the error message in 'data' property, or in 'data.Message'.
+     * @param error
+     * @param message
+     */
+    function errorHandler(error) {
+        if (error) {
+            if (error.data) {
+                if (error.data.split) {
+                    var msg = error.data.split(':');
+                    self.error = msg[msg.length - 1];
+                } else if (error.data.Message) {
+                    self.error = error.data.Message;
+                }
+            } else {
+                self.error = JSON.stringify(error);
+            }
+
+        } else {
+            self.error = "Unexpected failure";
+        }
+
+        alert(self.error);
+    }	
 
 
     }

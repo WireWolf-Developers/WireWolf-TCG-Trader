@@ -1,57 +1,32 @@
 'use strict';
 (function () {
-    /**
-     * @ngdoc function
-     * @name todoApp.controller:HeaderCtrl
-     * @description
-     * # HeaderCtrl
-     * Header controller of the todoApp, identifying the current user
-     */
+   
     angular.module('tcgTrader')
-            .controller('cardDetailsController', ['Backand', '$state', '$http', '$scope', 'AuthService', cardDetailsController]);
+            .controller('cardDetailsController', ['Backand', '$state', '$http', '$scope', 'AuthService', 'DeckBrewService', 'cardDetailService', cardDetailsController]);
 
-    function cardDetailsController(Backand, $state, $http, $scope, AuthService) {
-
-        var url = 'https://api.deckbrew.com/mtg';
+    function cardDetailsController(Backand, $state, $http, $scope, AuthService, DeckBrewService, cardDetailService) {
+      
 
         $scope.cardId = $state.params.multiverseid;
 
 
 
         $scope.add = function () {
-            //alert(localStorage.getItem('id'));
-            //  console.log($scope.details);
-            $http({
-                method: 'POST',
-                url: Backand.getApiUrl() + '/1/objects/card',
-                data: {
-                    card: $scope.cardId,
-                    idUsers: localStorage.getItem('id'),
-                    name: $scope.name,
-                    type: $scope.type,
-                    collection: $scope.set,
-                    colors: $scope.colors,
-                    urlImage: $scope.img
-
-                }
-            })
-                    .success(function (cont) {
-                        console.log("salvou");
-                        $('#modalSucess').modal('show');
-                        //   $scope.users = cont.data;
-                    })
-                    .error(function (erro) {
-                        console.log(erro);
-                    });
+           cardDetailService.add($scope.cardId, $scope.name, $scope.type, $scope.set, $scope.colors, $scope.img).then(addSuccess, errorHandler);
+			
         };
+		
+		function addSuccess(response){
+			 $('#modalSucess').modal('show');
+		}
 
-        $scope.getDetails = function () {
-            //   console.log($scope.cardId);
-            $http.get(url + '/cards?multiverseid=' + $scope.cardId)
-                    .then(function successCallback(response) {
-                        var json = JSON.stringify(response);
-                        // alert(json);
-                        $scope.details = response.data[0];
+        $scope.getDetails = function () {		
+			DeckBrewService.getDetails($scope.cardId).then(getDetailsSuccess, errorHandler);			
+        };
+		
+		 function getDetailsSuccess(response){
+		
+						$scope.details = response.data[0];
                         $scope.name = $scope.details.name;
                         $scope.type = $scope.details.types.join('-');
                         $scope.description = $scope.details.text;
@@ -60,12 +35,8 @@
                         $scope.set = $scope.details.editions[0].set;
                         $scope.power = $scope.details.power + "/" + $scope.details.toughness;
                         $scope.img = $scope.details.editions[0].image_url;
-                        $scope.colors = $scope.details.colors.join('-');
-
-                    }, function errorCallback(response) {
-                        alert(JSON.stringify(response));
-                    });
-        };
+                        $scope.colors = $scope.details.colors.join('-');       
+      };
 
         $scope.getDetails();
 
@@ -77,6 +48,35 @@
             $('.modal-backdrop').remove();			
             $state.go('searchCards');
         }
+		
+		
+		    /**
+     * Handle promise error call.
+     * Error object may have the error message in 'data' property, or in 'data.Message'.
+     * @param error
+     * @param message
+     */
+    function errorHandler(error) {
+        if (error) {
+            if (error.data) {
+                if (error.data.split) {
+                    var msg = error.data.split(':');
+                    self.error = msg[msg.length - 1];
+                } else if (error.data.Message) {
+                    self.error = error.data.Message;
+                }
+            } else {
+                self.error = JSON.stringify(error);
+            }
+
+        } else {
+            self.error = "Unexpected failure";
+        }
+
+        alert(self.error);
+    }	
+		
+		
 
     }
 

@@ -17,7 +17,7 @@
 		
 		$scope.myToThem=function(){
 		
-			exService.trade($scope.ownCard, $scope.idUserToTrade).then(myToThemSuccess, errorHandler);			
+			exService.trade($scope.ownCard, $scope.idUserToTrade).then(tradeSuccess, errorHandler);			
 		}
 		
 		function tradeSuccess(res) {			
