@@ -27,8 +27,13 @@ Seed project: https://github.com/backand/todos-with-users
 
 ## Instructions and Usability ##
 
-### Create your collection ###
+### Create and edit your profile ###
  - Create a new account or SignUp with your Google or Facebook account.
+ - Choose a photo
+ - Change your username
+
+### Create your collection ###
+ - SignUp with your Google or Facebook account or the account created with your email.
  - Click Search Cards on menu
  - Search Cards using the filters.
  - Click on the card to view details
