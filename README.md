@@ -3,6 +3,8 @@
 ## Description ##
 Do you collect Magic The Gathering Cards? Wanna trade cards? We have a platform who allows trade your physical cards in a better way without leave your home.
 
+Seed project: https://github.com/backand/todos-with-users
+
 ## Enviroment Details ##
 
 ### How to set up the enviroment ###
