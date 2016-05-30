@@ -105,3 +105,6 @@ and open the template in the editor.
     /*background: #df691a;*/
     background: #5cb85c;
 }
+.card-profile-block.image .users{
+    height: 200px;
+}
