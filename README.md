@@ -29,7 +29,7 @@ Seed project: https://github.com/backand/todos-with-users
 
 ### Create and edit your profile ###
  - Create a new account or SignUp with your Google or Facebook account.
- - Choose a photo
+ - Choose a photo (this app uses the Backand storage system)
  - Change your username
 
 ### Create your collection ###
