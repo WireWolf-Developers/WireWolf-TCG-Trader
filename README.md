@@ -3,11 +3,14 @@
 ## Description ##
 Do you collect Magic The Gathering Cards? Wanna trade cards? We have a platform who allows trade your physical cards in a better way without leave your home.
 
+Seed project: https://github.com/backand/todos-with-users
+
 ## Enviroment Details ##
 
 ### How to set up the enviroment ###
 - Clone this repository
 - CD to directory you cloned the repository
+- npm cache clean (to avoid issues with npm install)
 - npm install
 - bower install
 
@@ -24,8 +27,13 @@ Do you collect Magic The Gathering Cards? Wanna trade cards? We have a platform 
 
 ## Instructions and Usability ##
 
-### Create your collection ###
+### Create and edit your profile ###
  - Create a new account or SignUp with your Google or Facebook account.
+ - Choose a photo (this app uses the Backand storage system)
+ - Change your username
+
+### Create your collection ###
+ - SignUp with your Google or Facebook account or the account created with your email.
  - Click Search Cards on menu
  - Search Cards using the filters.
  - Click on the card to view details

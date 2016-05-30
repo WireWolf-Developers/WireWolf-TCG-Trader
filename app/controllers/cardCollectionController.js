@@ -5,6 +5,8 @@ angular.module('tcgTrader').controller('cardCollectionController',
 		
 		var self = this;
 		$scope.cards = [];	
+		
+		
 
 		// Redirect
     	$scope.nexPage = function (id) {
@@ -13,8 +15,14 @@ angular.module('tcgTrader').controller('cardCollectionController',
 
 		// Search cards with paramenters
         $scope.getCollection = function() {
-        	BackandService.getCollection().then(allCardsSuccess, errorHandler);
+        	BackandService.getCollection().then(allCardsSuccess, errorHandler);			
         };
+		
+		setTimeout(function () {
+				  $scope.getCollection();
+				}, 1001);
+		
+		
 
         $scope.getCardsByFilter = function() {
         	var parameters = [];

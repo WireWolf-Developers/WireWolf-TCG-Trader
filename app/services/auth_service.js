@@ -33,9 +33,7 @@
 									
 									self.currentUser.id=cont[0].id;
 									
-									localStorage.setItem('id',cont[0].id);
-									
-									//console.log("IdUser: "+self.currentUser.id);
+									localStorage.setItem('id',cont[0].id);								
 									
 								})
 								.error(function (erro) {
@@ -105,15 +103,11 @@
             return Backand.resetPassword(password, token)
         };
 
-        self.logout = function () {
-            Backand.signout().then(function () {
-                angular.copy({}, self.currentUser);
-            });
+        self.logout = function () {		
+            return Backand.signout();			
         };
 		
-		self.exit=function(){
-			alert('oi');
-		}
+		
 
     }
 

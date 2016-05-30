@@ -29,7 +29,7 @@
             AuthService.signin(self.username, self.password)
                 .then(
                 function () {
-                    $state.go('cardCollection');
+                    $state.go('cardCollection',  {}, {reload: true});
                 },
                 showError
             );
@@ -41,7 +41,7 @@
         }
 
         function gotoTodos() {
-            $state.go('cardCollection');
+            $state.go('cardCollection', {}, {reload: true});
         }
 
         self.socialSignin = function (provider) {
