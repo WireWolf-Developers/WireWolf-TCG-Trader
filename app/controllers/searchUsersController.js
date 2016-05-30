@@ -20,7 +20,7 @@ angular.module('tcgTrader').controller('searchUsersController',
                 SearchUsersService.getUsers().then(onSuccess, errorHandler);
             };
             function onSuccess(users) {
-                $scope.users = users;
+                $scope.users = users;				
             }
             function errorHandler(error) {
                 if (error) {

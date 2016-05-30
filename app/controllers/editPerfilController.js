@@ -71,7 +71,7 @@
         }
 
         // Display the image after upload
-        $scope.imageUrl = '../img/profile-example.jpg';
+        $scope.imageUrl = 'img/profile-example.jpg';
 
         // Store the file name after upload to be used for delete
         $scope.filename = null;

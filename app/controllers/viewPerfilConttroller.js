@@ -25,7 +25,7 @@
 	     
 
         // Display the image after upload
-        $scope.imageUrl = '../img/profile-example.jpg';
+        $scope.imageUrl = 'img/profile-example.jpg';
 
              
 
